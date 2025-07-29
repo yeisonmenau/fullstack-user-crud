@@ -1,11 +1,12 @@
-package com.yeisonmenau.back.domain.repository;
+package com.yeisonmenau.back.application.port.out;
 
+import com.yeisonmenau.back.application.dto.UsuarioRequest;
+import com.yeisonmenau.back.application.dto.UsuarioResponse;
 import com.yeisonmenau.back.domain.model.Usuario;
 
 import java.util.List;
-import java.util.Map;
 
-public interface UsuarioRepository {
+public interface UsuarioRepositoryPort {
     Usuario crearUsuario(Usuario usuario);
     List<Usuario> obtenerUsuarios();
     Usuario actualizarUsuario(Long cedula, Usuario usuario);
