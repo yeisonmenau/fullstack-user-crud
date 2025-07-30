@@ -19,13 +19,14 @@ public class UsuarioMapper {
     public Usuario requestToEntity(UsuarioRequest usuarioRequest) {
         return objectMapper.convertValue(usuarioRequest, Usuario.class);
     }
-    public UsuarioResponse entityToResponse (Usuario usuario){
+
+    public UsuarioResponse domainToResponse (Usuario usuario){
         return new UsuarioResponse(
                 usuario.getCedula(),
                 usuario.getNombre(),
                 usuario.getCorreo(),
                 Period.between(usuario.getFechaNacimiento(), LocalDate.now()).getYears()
-                );
+        );
     }
     public UsuarioEntity domainToEntity(Usuario usuario) {
         return objectMapper.convertValue(usuario, UsuarioEntity.class);
