@@ -1,4 +1,4 @@
-package com.yeisonmenau.back.application.usecase;
+package com.yeisonmenau.back.application.service;
 
 import com.yeisonmenau.back.application.dto.UsuarioRequest;
 import com.yeisonmenau.back.application.dto.UsuarioResponse;
@@ -8,7 +8,7 @@ import com.yeisonmenau.back.infrastructure.mapper.UsuarioMapper;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class CrearUsuarioUseCase {
+public class CrearUsuarioUseCase implements CrearUsuarioUseCase {
     private final UsuarioRepositoryPort usuarioRepositoryPort;
     private final UsuarioMapper usuarioMapper;
 
@@ -17,4 +17,5 @@ public class CrearUsuarioUseCase {
         Usuario usuarioCreado  = usuarioRepositoryPort.crearUsuario(usuarioEntidad);
         return usuarioMapper.entityToResponse(usuarioCreado);
     }
+
 }
