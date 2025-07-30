@@ -34,9 +34,9 @@ public class UsuarioAdapter implements UsuarioRepositoryPort {
     }
 
     @Override
-    public Usuario actualizarUsuario(Long id, Usuario usuario) {
-        UsuarioEntity usuarioEntityEncontrado = usuarioJpaRepository.findByCedula(id)
-                .orElseThrow(() -> new IllegalArgumentException("Usuario con cédula "+id+" no encontrado"));
+    public Usuario actualizarUsuario(Long cedula, Usuario usuario) {
+        UsuarioEntity usuarioEntityEncontrado = usuarioJpaRepository.findByCedula(cedula)
+                .orElseThrow(() -> new IllegalArgumentException("Usuario con cédula "+cedula+" no encontrado"));
         UsuarioEntity usuarioEntidad = usuarioMapper.domainToEntity(usuario);
         usuarioEntidad.setId(usuarioEntityEncontrado.getId());
         UsuarioEntity usuarioReemplazado = usuarioJpaRepository.save(usuarioEntidad);
@@ -46,6 +46,9 @@ public class UsuarioAdapter implements UsuarioRepositoryPort {
 
     @Override
     public void eliminarUsuario(Long cedula) {
-
+        UsuarioEntity usuarioEntityEncontrado = usuarioJpaRepository.findByCedula(cedula)
+                .orElseThrow(() -> new IllegalArgumentException("Usuario con cédula "+cedula+" no encontrado"));
+        usuarioJpaRepository.delete(usuarioEntityEncontrado);
+        System.out.println("Usuario con cédula " + cedula + " eliminado exitosamente.");
     }
 }
