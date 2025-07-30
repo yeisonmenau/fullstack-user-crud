@@ -9,6 +9,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Usuario {
+    private Long id;
     private Long cedula;
     private String nombre;
     private String correo;

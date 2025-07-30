@@ -2,6 +2,7 @@ package com.yeisonmenau.back.application.service;
 
 import com.yeisonmenau.back.application.dto.UsuarioRequest;
 import com.yeisonmenau.back.application.dto.UsuarioResponse;
+import com.yeisonmenau.back.application.port.in.ActualizarUsuarioUseCase;
 import com.yeisonmenau.back.application.port.in.CrearUsuarioUseCase;
 import com.yeisonmenau.back.application.port.in.MostrarUsuariosUseCase;
 import com.yeisonmenau.back.application.port.out.UsuarioRepositoryPort;
@@ -12,13 +13,13 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 
 @RequiredArgsConstructor
-public class CrearUsuarioService implements CrearUsuarioUseCase, MostrarUsuariosUseCase {
+public class CrearUsuarioService implements CrearUsuarioUseCase, MostrarUsuariosUseCase, ActualizarUsuarioUseCase {
     private final UsuarioRepositoryPort usuarioRepositoryPort;
     private final UsuarioMapper usuarioMapper;
 
     @Override
-    public UsuarioResponse crearUsuario(UsuarioRequest usuario) {
-        Usuario usuarioDominio = usuarioMapper.requestToEntity(usuario);
+    public UsuarioResponse crearUsuario(UsuarioRequest usuarioRequest) {
+        Usuario usuarioDominio = usuarioMapper.requestToEntity(usuarioRequest);
         Usuario usuarioCreado = usuarioRepositoryPort.crearUsuario(usuarioDominio);
         return usuarioMapper.domainToResponse(usuarioCreado);
     }
@@ -29,5 +30,12 @@ public class CrearUsuarioService implements CrearUsuarioUseCase, MostrarUsuarios
         return usuariosDominio.stream()
                 .map(usuarioMapper::domainToResponse)
                 .toList();
+    }
+
+    @Override
+    public UsuarioResponse actualizarUsuario(Long cedula, UsuarioRequest usuarioRequest) {
+        Usuario usuarioDominio = usuarioMapper.requestToEntity(usuarioRequest);
+        Usuario usuarioActualizado = usuarioRepositoryPort.actualizarUsuario(cedula, usuarioDominio);
+        return usuarioMapper.domainToResponse(usuarioActualizado);
     }
 }

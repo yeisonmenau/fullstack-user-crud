@@ -22,6 +22,7 @@ public class UsuarioMapper {
 
     public UsuarioResponse domainToResponse (Usuario usuario){
         return new UsuarioResponse(
+                usuario.getId(),
                 usuario.getCedula(),
                 usuario.getNombre(),
                 usuario.getCorreo(),

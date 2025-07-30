@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
+
 @RequiredArgsConstructor
 @Component
 public class UsuarioAdapter implements UsuarioRepositoryPort {
@@ -32,8 +34,14 @@ public class UsuarioAdapter implements UsuarioRepositoryPort {
     }
 
     @Override
-    public Usuario actualizarUsuario(Long cedula, Usuario usuario) {
-        return null;
+    public Usuario actualizarUsuario(Long id, Usuario usuario) {
+        UsuarioEntity usuarioEntityEncontrado = usuarioJpaRepository.findByCedula(id)
+                .orElseThrow(() -> new IllegalArgumentException("Usuario con cédula "+id+" no encontrado"));
+        UsuarioEntity usuarioEntidad = usuarioMapper.domainToEntity(usuario);
+        usuarioEntidad.setId(usuarioEntityEncontrado.getId());
+        UsuarioEntity usuarioReemplazado = usuarioJpaRepository.save(usuarioEntidad);
+        return usuarioMapper.entityToDomain(usuarioReemplazado);
+
     }
 
     @Override

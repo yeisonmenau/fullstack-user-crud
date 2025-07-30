@@ -1,8 +1,6 @@
 package com.yeisonmenau.back.infrastructure.persistence.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,8 +13,11 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class UsuarioEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private Long cedula;
     private String nombre;
     private String correo;
     private LocalDate fechaNacimiento;
+
 }

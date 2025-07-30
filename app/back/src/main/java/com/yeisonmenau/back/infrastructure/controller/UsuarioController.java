@@ -2,6 +2,7 @@ package com.yeisonmenau.back.infrastructure.controller;
 
 import com.yeisonmenau.back.application.dto.UsuarioRequest;
 import com.yeisonmenau.back.application.dto.UsuarioResponse;
+import com.yeisonmenau.back.application.port.in.ActualizarUsuarioUseCase;
 import com.yeisonmenau.back.application.port.in.CrearUsuarioUseCase;
 import com.yeisonmenau.back.application.port.in.MostrarUsuariosUseCase;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,7 @@ import java.util.List;
 public class UsuarioController {
     private final CrearUsuarioUseCase crearUsuarioUseCase;
     private final MostrarUsuariosUseCase mostrarUsuariosUseCase;
+    private final ActualizarUsuarioUseCase actualizarUsuarioUseCase;
 
     @PostMapping
     public ResponseEntity<UsuarioResponse> crearUsuario(@RequestBody UsuarioRequest usuarioRequest) {
@@ -27,5 +29,12 @@ public class UsuarioController {
     public ResponseEntity<List<UsuarioResponse>> mostrarUsuarios() {
         List<UsuarioResponse> usuarios = mostrarUsuariosUseCase.mostrarUsuarios();
         return ResponseEntity.ok(usuarios);
+    }
+    @PutMapping("/{cedula}")
+    public ResponseEntity<UsuarioResponse> actualizarUsuario(
+            @PathVariable Long cedula,
+            @RequestBody UsuarioRequest usuarioRequest) {
+        UsuarioResponse usuarioResponse = actualizarUsuarioUseCase.actualizarUsuario(cedula, usuarioRequest);
+        return ResponseEntity.ok(usuarioResponse);
     }
 }

@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UsuarioResponse {
+    private Long id;
     private Long cedula;
     private String nombre;
     private String correo;
