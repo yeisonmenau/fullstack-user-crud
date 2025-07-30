@@ -6,6 +6,7 @@ import com.yeisonmenau.back.application.port.in.ActualizarUsuarioUseCase;
 import com.yeisonmenau.back.application.port.in.CrearUsuarioUseCase;
 import com.yeisonmenau.back.application.port.in.EliminarUsuarioUseCase;
 import com.yeisonmenau.back.application.port.in.MostrarUsuariosUseCase;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,8 @@ public class UsuarioController {
     private final EliminarUsuarioUseCase eliminarUsuarioUseCase;
 
     @PostMapping
-    public ResponseEntity<UsuarioResponse> crearUsuario(@RequestBody UsuarioRequest usuarioRequest) {
+    public ResponseEntity<UsuarioResponse> crearUsuario(
+            @Valid @RequestBody UsuarioRequest usuarioRequest) {
         UsuarioResponse usuarioResponse = crearUsuarioUseCase.crearUsuario(usuarioRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(usuarioResponse);
     }
@@ -35,7 +37,7 @@ public class UsuarioController {
     @PutMapping("/{cedula}")
     public ResponseEntity<UsuarioResponse> actualizarUsuario(
             @PathVariable Long cedula,
-            @RequestBody UsuarioRequest usuarioRequest) {
+            @Valid @RequestBody UsuarioRequest usuarioRequest) {
         UsuarioResponse usuarioResponse = actualizarUsuarioUseCase.actualizarUsuario(cedula, usuarioRequest);
         return ResponseEntity.ok(usuarioResponse);
     }
