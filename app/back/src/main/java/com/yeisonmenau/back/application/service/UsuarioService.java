@@ -14,7 +14,7 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 
 @RequiredArgsConstructor
-public class CrearUsuarioService implements CrearUsuarioUseCase, MostrarUsuariosUseCase, ActualizarUsuarioUseCase, EliminarUsuarioUseCase {
+public class UsuarioService implements CrearUsuarioUseCase, MostrarUsuariosUseCase, ActualizarUsuarioUseCase, EliminarUsuarioUseCase {
     private final UsuarioRepositoryPort usuarioRepositoryPort;
     private final UsuarioMapper usuarioMapper;
 

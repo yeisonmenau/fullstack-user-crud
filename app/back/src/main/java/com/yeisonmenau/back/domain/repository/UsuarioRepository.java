@@ -3,7 +3,6 @@ package com.yeisonmenau.back.domain.repository;
 import com.yeisonmenau.back.domain.model.Usuario;
 
 import java.util.List;
-import java.util.Map;
 
 public interface UsuarioRepository {
     Usuario crearUsuario(Usuario usuario);
