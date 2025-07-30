@@ -24,7 +24,11 @@ public class UsuarioAdapter implements UsuarioRepositoryPort {
 
     @Override
     public List<Usuario> obtenerUsuarios() {
-        return List.of();
+        List<UsuarioEntity> usuariosEntidades = usuarioJpaRepository.findAll();
+        return usuariosEntidades
+                .stream()
+                .map(usuarioMapper::entityToDomain)
+                .toList();
     }
 
     @Override

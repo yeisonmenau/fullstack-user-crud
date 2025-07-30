@@ -3,13 +3,16 @@ package com.yeisonmenau.back.application.service;
 import com.yeisonmenau.back.application.dto.UsuarioRequest;
 import com.yeisonmenau.back.application.dto.UsuarioResponse;
 import com.yeisonmenau.back.application.port.in.CrearUsuarioUseCase;
+import com.yeisonmenau.back.application.port.in.MostrarUsuariosUseCase;
 import com.yeisonmenau.back.application.port.out.UsuarioRepositoryPort;
 import com.yeisonmenau.back.domain.model.Usuario;
 import com.yeisonmenau.back.infrastructure.mapper.UsuarioMapper;
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
+
 @RequiredArgsConstructor
-public class CrearUsuarioService implements CrearUsuarioUseCase {
+public class CrearUsuarioService implements CrearUsuarioUseCase, MostrarUsuariosUseCase {
     private final UsuarioRepositoryPort usuarioRepositoryPort;
     private final UsuarioMapper usuarioMapper;
 
@@ -18,5 +21,13 @@ public class CrearUsuarioService implements CrearUsuarioUseCase {
         Usuario usuarioDominio = usuarioMapper.requestToEntity(usuario);
         Usuario usuarioCreado = usuarioRepositoryPort.crearUsuario(usuarioDominio);
         return usuarioMapper.domainToResponse(usuarioCreado);
+    }
+
+    @Override
+    public List<UsuarioResponse> mostrarUsuarios() {
+        List<Usuario> usuariosDominio = usuarioRepositoryPort.obtenerUsuarios();
+        return usuariosDominio.stream()
+                .map(usuarioMapper::domainToResponse)
+                .toList();
     }
 }
