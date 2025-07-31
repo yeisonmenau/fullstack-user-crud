@@ -20,7 +20,7 @@ public class UsuarioService implements CrearUsuarioUseCase, MostrarUsuariosUseCa
 
     @Override
     public UsuarioResponse crearUsuario(UsuarioRequest usuarioRequest) {
-        Usuario usuarioDominio = usuarioMapper.requestToEntity(usuarioRequest);
+        Usuario usuarioDominio = usuarioMapper.requestToDomain(usuarioRequest);
         Usuario usuarioCreado = usuarioRepositoryPort.crearUsuario(usuarioDominio);
         return usuarioMapper.domainToResponse(usuarioCreado);
     }
@@ -35,7 +35,7 @@ public class UsuarioService implements CrearUsuarioUseCase, MostrarUsuariosUseCa
 
     @Override
     public UsuarioResponse actualizarUsuario(Long cedula, UsuarioRequest usuarioRequest) {
-        Usuario usuarioDominio = usuarioMapper.requestToEntity(usuarioRequest);
+        Usuario usuarioDominio = usuarioMapper.requestToDomain(usuarioRequest);
         Usuario usuarioActualizado = usuarioRepositoryPort.actualizarUsuario(cedula, usuarioDominio);
         return usuarioMapper.domainToResponse(usuarioActualizado);
     }

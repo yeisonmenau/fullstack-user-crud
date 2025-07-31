@@ -16,7 +16,7 @@ import java.time.Period;
 public class UsuarioMapper {
     private final ObjectMapper objectMapper;
 
-    public Usuario requestToEntity(UsuarioRequest usuarioRequest) {
+    public Usuario requestToDomain(UsuarioRequest usuarioRequest) {
         return objectMapper.convertValue(usuarioRequest, Usuario.class);
     }
 
