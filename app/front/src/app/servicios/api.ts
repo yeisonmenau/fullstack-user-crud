@@ -32,5 +32,11 @@ export class Api {
   agregarUsuario(usuario: UsuarioRequest): Observable<UsuarioResponse> {
       return this.http.post<UsuarioResponse>(this.apiUrl, usuario);
   }
+  actualizarUsuario(cedula: number, usuario: UsuarioRequest): Observable<UsuarioResponse> {
+      return this.http.put<UsuarioResponse>(`${this.apiUrl}/${cedula}`, usuario);
+  }
+  eliminarUsuario(cedula: number): Observable<void> {
+      return this.http.delete<void>(`${this.apiUrl}/${cedula}`);
+  }
 
 }
