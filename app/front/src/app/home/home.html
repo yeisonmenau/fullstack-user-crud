@@ -1,6 +1,7 @@
 @for (item of datos; track item.id) {
-    <p>ID:{{item.id}} - {{item.nombre}}</p>
+    <p>:{{item.id}} - {{item.nombre}}</p>
 }
 
 <button (click)="agregarNuevoUsuario()">AGREAR</button>
 <button (click)="actualizarUsuario()">ACTUALIZAR</button>
+<button (click)="eliminarUsuario()">ELIMINAR</button>
