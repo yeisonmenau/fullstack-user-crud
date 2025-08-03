@@ -18,6 +18,9 @@ public class UsuarioAdapter implements UsuarioRepositoryPort {
 
     @Override
     public Usuario crearUsuario(Usuario usuario) {
+        if (usuarioJpaRepository.existsByCedula(usuario.getCedula())) {
+            throw new IllegalArgumentException("Usuario con cédula " + usuario.getCedula() + " ya existe");
+        }
         UsuarioEntity usuarioEntity = usuarioMapper.domainToEntity(usuario);
         UsuarioEntity usuarioGuardado = usuarioJpaRepository.save(usuarioEntity);
         return usuarioMapper.entityToDomain(usuarioGuardado);

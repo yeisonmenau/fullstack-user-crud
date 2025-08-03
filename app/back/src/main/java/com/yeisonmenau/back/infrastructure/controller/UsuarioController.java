@@ -17,6 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/usuarios")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class UsuarioController {
     private final CrearUsuarioUseCase crearUsuarioUseCase;
     private final MostrarUsuariosUseCase mostrarUsuariosUseCase;
