@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 export interface UsuarioResponse {
-  id: number;
+  id: bigint;
   cedula: bigint;
   nombre: string;
   correo: string;
@@ -32,10 +32,10 @@ export class Api {
   agregarUsuario(usuario: UsuarioRequest): Observable<UsuarioResponse> {
       return this.http.post<UsuarioResponse>(this.apiUrl, usuario);
   }
-  actualizarUsuario(cedula: number, usuario: UsuarioRequest): Observable<UsuarioResponse> {
+  actualizarUsuario(cedula: bigint, usuario: UsuarioRequest): Observable<UsuarioResponse> {
       return this.http.put<UsuarioResponse>(`${this.apiUrl}/${cedula}`, usuario);
   }
-  eliminarUsuario(cedula: number): Observable<void> {
+  eliminarUsuario(cedula: bigint): Observable<void> {
       return this.http.delete<void>(`${this.apiUrl}/${cedula}`);
   }
 
