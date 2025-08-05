@@ -1,5 +1,5 @@
 import { Component, input, InputSignal, OnInit } from '@angular/core';
-import { Api, UsuarioResponse, UsuarioRequest } from '../servicios/api';
+import { Api, UsuarioResponse, UsuarioRequest, cedulaDuplicadaResponse } from '../servicios/api';
 
 @Component({
   selector: 'app-home',
@@ -8,11 +8,13 @@ import { Api, UsuarioResponse, UsuarioRequest } from '../servicios/api';
   styleUrl: './home.css'
 })
 export class Home implements OnInit{
+
   datos: UsuarioResponse[] = [];
   inputCedula: InputSignal<bigint | undefined> = input<bigint>();
   inputNombre: InputSignal<string | undefined> = input<string>();
   inputCorreo: InputSignal<string | undefined> = input<string>();
   inputFecha: InputSignal<string | undefined> = input<string>();
+  mostrarFormulario: boolean = false;
 
   constructor(private api: Api) {}
   
@@ -26,30 +28,51 @@ export class Home implements OnInit{
       }
     });
   }
-  mostrarFormulario: boolean = false;
 
   agregarNuevoUsuario(
     cedula: string, 
     nombre: string, 
     correo: string, 
-    fechaNacimiento: string): void {
-      
+    fechaNacimiento: string
+  ): void {
+
+    const numeroCedula = Number(cedula);
+
+    if (isNaN(numeroCedula)) {
+      alert('La cédula debe ser un número válido.');
+      return;
+    }
+  
     const nuevoUsuario: UsuarioRequest = {
-      cedula: Number(cedula),
-      nombre: nombre,
-      correo: correo,
-      fechaNacimiento: fechaNacimiento
+      cedula: numeroCedula,
+      nombre,
+      correo,
+      fechaNacimiento
     };
+
+    const camposInvalidos = Object.entries(nuevoUsuario)
+      .filter(([_, valor]) => valor == null || valor === '')
+      .map(([campo]) => campo);
+
+    if (camposInvalidos.length > 0) {
+      alert(`Por favor completa los siguientes campos: ${camposInvalidos.join(', ')}`);
+      return;
+    }
     this.api.agregarUsuario(nuevoUsuario).subscribe({
-      next: (respuesta) => {
-        console.log('Usuario agregado:', respuesta);
-        alert(respuesta.toString());
+      next: (respuesta) => {       
+        if (respuesta.error) {
+          alert(respuesta.error);
+          return;
+        }
+
         this.datos = [...this.datos, respuesta];
+        this.mostrarFormulario = false;
+        console.log('Usuario agregado correctamente:', respuesta);
       },
       error: (error) => {
         console.error('Error al agregar usuario:', error);
       }
-      });
+    });
   }
 
   actualizarUsuario(cedula: bigint): void {
@@ -68,6 +91,7 @@ export class Home implements OnInit{
     }
   })
   }
+
 
 
 }
