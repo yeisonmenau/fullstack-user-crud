@@ -11,4 +11,5 @@ public interface UsuarioRepositoryPort {
     List<Usuario> obtenerUsuarios();
     Usuario actualizarUsuario(Long cedula, Usuario usuario);
     void eliminarUsuario(Long cedula);
+    Usuario buscarUsuarioPorCedula(Long cedula);
 }

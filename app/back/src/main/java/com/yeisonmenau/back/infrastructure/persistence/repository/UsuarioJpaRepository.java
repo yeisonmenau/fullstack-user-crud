@@ -10,4 +10,5 @@ import java.util.Optional;
 public interface UsuarioJpaRepository extends JpaRepository<UsuarioEntity, Long> {
     Optional<UsuarioEntity> findByCedula(Long cedula);
     Boolean existsByCedula(Long cedula);
+    void deleteByCedula(Long cedula);
 }

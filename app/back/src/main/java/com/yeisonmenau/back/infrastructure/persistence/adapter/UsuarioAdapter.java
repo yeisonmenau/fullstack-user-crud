@@ -53,4 +53,9 @@ public class UsuarioAdapter implements UsuarioRepositoryPort {
         usuarioJpaRepository.delete(usuarioEntityEncontrado);
         System.out.println("Usuario con cédula " + cedula + " eliminado exitosamente.");
     }
+
+    @Override
+    public Usuario buscarUsuarioPorCedula(Long cedula) {
+        return null;
+    }
 }
