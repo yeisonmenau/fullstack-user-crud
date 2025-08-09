@@ -16,10 +16,6 @@ export interface UsuarioRequest {
   fechaNacimiento: string;
 }
 
-export interface cedulaDuplicadaResponse {
-  error: string;
-}
-
 
 @Injectable({
   providedIn: 'root'

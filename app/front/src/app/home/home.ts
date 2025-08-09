@@ -1,5 +1,5 @@
 import { Component, input, InputSignal, OnInit } from '@angular/core';
-import { Api, UsuarioResponse, UsuarioRequest, cedulaDuplicadaResponse } from '../servicios/api';
+import { Api, UsuarioResponse, UsuarioRequest } from '../servicios/api';
 import Swal from 'sweetalert2';
 @Component({
   selector: 'app-home',
@@ -15,6 +15,7 @@ export class Home implements OnInit{
   inputCorreo: InputSignal<string | undefined> = input<string>();
   inputFecha: InputSignal<string | undefined> = input<string>();
   mostrarFormulario: boolean = false;
+  usuarioEditando: any | null = null;
 
   constructor(private api: Api) {}
   
@@ -85,22 +86,34 @@ export class Home implements OnInit{
       }
     });
   }
+  trackByCedula(index: number, item: any) {
+    return item.cedula;
+  }
 
-  actualizarUsuario(cedula: bigint): void {
-      const nuevoUsuario: UsuarioRequest = {
-      cedula: 101010,
-      nombre: 'quemado',
-      correo: 'quemado@mail.com',
-      fechaNacimiento: '2020-02-02'
-      };
-  this.api.actualizarUsuario(cedula, nuevoUsuario).subscribe({
-    next: (respuesta) => {
-      this.datos = this.datos.map(usuario => usuario.cedula === cedula ? respuesta : usuario);
-    } ,
-    error: (error) => {
-      console.error('Error al actualizar usuario:', error);
-    }
-  })
+  editarUsuario(usuario: UsuarioResponse): void {
+    Swal.fire({
+      title: 'Editar usuario',
+      html: `
+        <input id="nombre" class="swal2-input" value="${usuario.nombre}">
+        <input id="correo" class="swal2-input" value="${usuario.correo}">
+        <input id="fechaNacimiento" type="date" class="swal2-input">
+      `,
+      showCancelButton: true,
+      confirmButtonText: 'Guardar',
+      preConfirm: () => ({
+        cedula: Number(usuario.cedula),
+        nombre: (document.getElementById('nombre') as HTMLInputElement).value,
+        correo: (document.getElementById('correo') as HTMLInputElement).value,
+        fechaNacimiento: (document.getElementById('fechaNacimiento') as HTMLInputElement).value
+      })
+    }).then(res => {
+      if (res.isConfirmed) {
+        this.api.actualizarUsuario(usuario.cedula, res.value).subscribe(r => {
+          this.datos = this.datos.map(u => u.cedula === r.cedula ? r : u);
+          Swal.fire('Éxito', 'Usuario actualizado', 'success');
+        });
+      }
+    });
   }
 
   eliminarUsuario(cedula: bigint): void {
