@@ -39,10 +39,10 @@ export class Home implements OnInit{
     const numeroCedula = Number(cedula);
 
     if (isNaN(numeroCedula)) {
-      alert('La cédula debe ser un número válido.');
+      Swal.fire('Cédula inválida', 'La cédula debe ser un número válido.', 'warning');
       return;
     }
-  
+
     const nuevoUsuario: UsuarioRequest = {
       cedula: numeroCedula,
       nombre,
@@ -50,27 +50,38 @@ export class Home implements OnInit{
       fechaNacimiento
     };
 
+    // Validar campos vacíos
     const camposInvalidos = Object.entries(nuevoUsuario)
       .filter(([_, valor]) => valor == null || valor === '')
       .map(([campo]) => campo);
 
     if (camposInvalidos.length > 0) {
-      alert(`Por favor completa los siguientes campos: ${camposInvalidos.join(', ')}`);
+      Swal.fire(
+        'Campos incompletos',
+        `Por favor completa los siguientes campos: ${camposInvalidos.join(', ')}`,
+        'warning'
+      );
       return;
     }
+
+    // Llamada al servicio
     this.api.agregarUsuario(nuevoUsuario).subscribe({
       next: (respuesta) => {       
         if (respuesta.error) {
-          alert(respuesta.error);
+          Swal.fire('Error', respuesta.error, 'error');
           return;
         }
 
+        // Agregar el nuevo usuario y cerrar el formulario
         this.datos = [...this.datos, respuesta];
         this.mostrarFormulario = false;
+
+        Swal.fire('Éxito', 'Usuario agregado correctamente.', 'success');
         console.log('Usuario agregado correctamente:', respuesta);
       },
       error: (error) => {
         console.error('Error al agregar usuario:', error);
+        Swal.fire('Error', 'No se pudo agregar el usuario.', 'error');
       }
     });
   }
