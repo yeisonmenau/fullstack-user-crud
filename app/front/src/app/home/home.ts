@@ -1,6 +1,6 @@
 import { Component, input, InputSignal, OnInit } from '@angular/core';
 import { Api, UsuarioResponse, UsuarioRequest, cedulaDuplicadaResponse } from '../servicios/api';
-
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-home',
   imports: [],
@@ -90,6 +90,30 @@ export class Home implements OnInit{
       console.error('Error al actualizar usuario:', error);
     }
   })
+  }
+
+  eliminarUsuario(cedula: bigint): void {
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: 'Esta acción eliminará el usuario de la base de datos.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar',
+      confirmButtonColor: '#e7000b',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.api.eliminarUsuario(cedula).subscribe({
+          next: () => {
+            this.datos = this.datos.filter(usuario => usuario.cedula !== cedula);
+            Swal.fire('Eliminado', 'El usuario ha sido eliminado correctamente', 'success');
+          },
+          error: () => {
+            Swal.fire('Error', 'No se pudo eliminar el usuario', 'error');
+          }
+        });
+      }
+    });
   }
 
 
