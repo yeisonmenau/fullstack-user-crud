@@ -1,0 +1,44 @@
+# Dependencias
+node_modules
+npm-debug.log*
+
+# Archivos de distribución
+dist
+.angular
+
+# Archivos de testing
+coverage
+*.spec.ts
+e2e
+.nyc_output
+
+# Archivos de desarrollo
+.vscode
+.idea
+*.swp
+*.swo
+*~
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Variables de entorno
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Git
+.git
+.gitignore
+README.md
+
+# Docker
+Dockerfile
+.dockerignore
+docker-compose.yml
