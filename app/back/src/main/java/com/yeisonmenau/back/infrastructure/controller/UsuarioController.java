@@ -43,8 +43,8 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioResponse);
     }
     @DeleteMapping("/{cedula}")
-    public ResponseEntity<String> eliminarUsuario(@PathVariable Long cedula) {
+    public ResponseEntity<Void> eliminarUsuario(@PathVariable Long cedula) {
         eliminarUsuarioUseCase.eliminarUsuario(cedula);
-        return ResponseEntity.ok("Usuario con cedula "+cedula+" eliminado exitosamente");
+        return ResponseEntity.ok().build();
     }
 }
